@@ -1,0 +1,11 @@
+{
+  "name": "blert",
+  "version": "0.1.1",
+  "description": "Encoder/decoder for BERT (Binary ERlang Term)",
+  "main": "blert.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Justin Davis <jrcd83@gmail.com>",
+  "license": "MPL-2.0"
+}
