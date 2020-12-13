@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+<title>Blert!</title>
+<script src="blert.js" type="text/javascript"></script>
+<meta charset="utf-8">
+<style>
+body {
+  background-color: black;
+  color: green;
+  font-family: "Consolas";
+}
+
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var write = document.write.bind(document)
+function writeln(){ write("\n"); }
+function dump(x){
+    if(x instanceof ArrayBuffer){
+        var A = new Uint8Array(x)
+        write("<<")
+        for(var i=0; i<A.length; i++){
+            write(A[i])
+            if(i+1 < A.length) write(",")
+        }
+        write(">>")
+    }else if(x instanceof Map){
+        write("Map#["+Array.from(x.entries()).map((A) => A.join(":")).join(",")+"]")
+    }else if(blert.isList(x)){
+        write("List#"+x+"")
+    }else if(blert.isTuple(x)){
+        write("Tuple#["+x.tuple+"]")
+    }else if(typeof(x) === "bigint"){
+        write("BigInt#"); write(x.toString())
+    }else{
+        write(JSON.stringify(x))
+    }
+}
+function test(x){
+    write("<tr><td>"); dump(x); write("</td>")
+    write("<td>"); dump(blert.encode(x)); write("</td>")
+    write("<td>"); dump(blert.decode(blert.encode(x))); write("</td></tr>\n")
+}
+
+write("<table>\n")
+test(new Map([["foo","bar"]]))
+test("Hello, World!")
+test({list:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})
+test({list:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], tail:11})
+test(31337)
+test(BigInt(31337))
+test({tuple:[1, 2, 3, 4, 5]})
+write("</table>\n")
+</script>
+</body>
