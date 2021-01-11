@@ -441,8 +441,4 @@ function isProper(L){
     return isList(L) && !("tail" in L)
 }
 
-function isNil(L){
-    return L === nil
-}
-
 })() // end of module wrapper function
