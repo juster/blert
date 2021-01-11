@@ -7,8 +7,7 @@
 
 var exports = {
     alloc: alloc, encode: encode, decode: decode,
-    isAtom: isAtom, isTuple: isTuple, isList: isList,
-    isProper: isProper, isNil: isNil
+    isAtom: isAtom, isTuple: isTuple, isList: isList, isProper: isProper
 }
 if(typeof module !== "undefined"){
     module.exports = exports
@@ -424,11 +423,11 @@ function decode(A){
 }
 
 function isAtom(A){
-    return (typeof A === "object") && ("atom" in A)
+    return typeof A === "object" && "atom" in A
 }
 
 function isTuple(T){
-    return (typeof T === "object" && "tuple" in T)
+    return typeof T === "object" && "tuple" in T
 }
 
 function isList(L){
