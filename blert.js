@@ -163,7 +163,7 @@ function encode(x){
     }
 
     function encm(M, i, V){
-        if(M.size > 65535){
+        if(M.size > 4294967295){
             throw new Error("Map too large")
         }
         V.setUint8(i+0, MAP_EXT)
