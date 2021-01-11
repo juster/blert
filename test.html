@@ -5,6 +5,7 @@
 <meta charset="utf-8">
 <style>
 body {
+  /* a color scheme perfected in 1990 */
   background-color: black;
   color: green;
   font-family: "Consolas";
@@ -16,41 +17,42 @@ body {
 <script type="text/javascript">
 var write = document.write.bind(document)
 function writeln(){ write("\n"); }
-function dump(x){
+function encode(x){
     if(x instanceof ArrayBuffer){
         var A = new Uint8Array(x)
-        write("<<")
+        var S = "<<"
         for(var i=0; i<A.length; i++){
-            write(A[i])
-            if(i+1 < A.length) write(",")
+            S += A[i]
+            if(i+1 < A.length) S += ","
         }
-        write(">>")
+        S += ">>"
+        return S
     }else if(x instanceof Map){
-        write("Map#["+Array.from(x.entries()).map((A) => A.join(":")).join(",")+"]")
-    }else if(blert.isList(x)){
-        write("List#"+x+"")
-    }else if(blert.isTuple(x)){
-        write("Tuple#["+x.tuple+"]")
+        return "Map#["+Array.from(x.entries()).map((A) => '"'+A[0]+'":'+encode(A[1])).join(",")+"]"
     }else if(typeof(x) === "bigint"){
-        write("BigInt#"); write(x.toString())
+        return "BigInt#"+x.toString()
     }else{
-        write(JSON.stringify(x))
+        return JSON.stringify(x)
     }
+}
+function dump(x){
+    write(encode(x))
 }
 function test(x){
     write("<tr><td>"); dump(x); write("</td>")
     write("<td>"); dump(blert.encode(x)); write("</td>")
-    write("<td>"); dump(blert.decode(blert.encode(x))); write("</td></tr>\n")
+    write("<td>"); dump(blert.decode(blert.encode(x))); writeln("</td></tr>")
 }
 
 write("<table>\n")
 test(new Map([["foo","bar"]]))
 test("Hello, World!")
-test({list:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})
+//test({list:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})
 test({list:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], tail:11})
 test(31337)
 test(BigInt(31337))
 test({tuple:[1, 2, 3, 4, 5]})
+test({atom:"foo"})
 write("</table>\n")
 </script>
 </body>
