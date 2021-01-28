@@ -6,8 +6,8 @@
 (function(){
 
 var exports = {
-    alloc: alloc, encode: encode, decode: decode,
-    isAtom: isAtom, isTuple: isTuple, isList: isList, isProper: isProper
+    alloc, encode, decode,
+    isAtom, isTuple, isList, isProper
 }
 if(typeof module !== "undefined"){
     module.exports = exports
